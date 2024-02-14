@@ -1,22 +1,16 @@
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
+import java.security.*;
+import javax.crypto.*;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
 
 public class DecryptionManager {
-    public static String decrypt(String algorithm, String cipherText, SecretKey key, IvParameterSpec iv) throws NoSuchPaddingException, NoSuchAlgorithmException,
-    InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+    private final Cipher cipher;
+    // Mode and padding should be default for this case
+    public DecryptionManager(String algorithm ) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        this.cipher = Cipher.getInstance(algorithm + "/ECB/PKCS5Padding");    
+    }
     
-        Cipher cipher = Cipher.getInstance(algorithm);
-        cipher.init(Cipher.DECRYPT_MODE, key, iv);
-        byte[] plainText = cipher.doFinal(Base64.getDecoder().decode(cipherText));
-        return new String(plainText);
-}
+    public byte[] decrypt(byte[] input, Key key) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+        cipher.init(Cipher.DECRYPT_MODE, key);
+        return cipher.doFinal(input);
+    }
 }

@@ -1,27 +1,25 @@
-import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
+import java.io.*;
+import java.security.*;
+import javax.crypto.*;
 
 public class KeyManager {
-    private Map<String, SecretKey> keyStorage;
 
-    public KeyManager() {
-        this.keyStorage = new HashMap<>();
-    }
-    
-    public SecretKey generateKey(int n) throws NoSuchAlgorithmException {
-        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+    public SecretKey generateKey(String algorithm, int n) throws NoSuchAlgorithmException {
+        KeyGenerator keyGenerator = KeyGenerator.getInstance(algorithm.toUpperCase());
         keyGenerator.init(n);
         SecretKey key = keyGenerator.generateKey();
         return key;
     }
-    void storeKey(String user, SecretKey key){
-        this.keyStorage.put(user, key );
+
+    public Key readKeyFromFile(String filename) throws IOException, ClassNotFoundException {
+        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filename))) {
+            return (Key) inputStream.readObject();
+        }
     }
-    public Map<String, SecretKey> getkeys(){
-        return this.keyStorage;
+
+    public void writeKeyToFile(Key key, String filename) throws IOException {
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filename))) {
+            outputStream.writeObject(key);
+        }
     }
 }

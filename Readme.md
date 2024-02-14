@@ -26,7 +26,7 @@ The Encryption and Decryption Tool is a program that allows you to encrypt and d
 1. Run the program:
 
    ````shell
-   python encryption_tool.py
+   java Main
    ```
 
 2. Follow the on-screen instructions and input the required information, such as the encryption algorithm, input file, output file, and encryption/decryption keys.
@@ -43,20 +43,9 @@ Contributions are welcome! If you would like to contribute to this project, plea
 4. Push your changes to your fork.
 5. Submit a pull request, explaining the changes you have made.
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
-## Acknowledgments
-
-- [List any external libraries or resources used in the project.]
-
 ## Contact
 
-If you have any questions, suggestions, or feedback, please feel free to contact [your-name] at [your-email].
+If you have any questions, suggestions, or feedback, please feel free to contact [Bereket-Tadiwos] at [berekettadiwos00@gmail.com].
 
----
-
-You can customize this template by filling in the relevant information specific to your project. Include any additional sections or details that are relevant and helpful for users to understand and use your encryption and decryption tool.
 
 
