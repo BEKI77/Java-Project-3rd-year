@@ -1,15 +1,15 @@
 import java.util.*;
-import java.security.Key;
+import java.security.*;
 
 public class Main {
     public static void main(String[] args) {
+        boolean flag = true;
+        while(flag){
             try {
                 Scanner scanner = new Scanner(System.in);
-                // Choose encryption algorithm, mode, and padding
+                // Choose encryption algorithm
                 System.out.println("Choose encryption algorithm (e.g., AES):");
                 String algorithm = scanner.nextLine();
-                // Choose a default padding instead
-
                
                 KeyManager keyManager = new KeyManager();
     
@@ -62,7 +62,7 @@ public class Main {
                     encryptor.encryptFile(inputFile, outputFile, key, encryptionManager);
                     System.out.println("File encrypted successfully.");
                 } else if (operation.equalsIgnoreCase("d")) {
-                    
+
                     System.out.println("Enter path to input file:('FILENAME.txt)");
                     String inputFile = scanner.next();
                     System.out.println("Enter path to output file:('FILENAME.txt)");
@@ -70,15 +70,26 @@ public class Main {
 
                     DecryptionManager decryptionManager = new DecryptionManager(algorithm);
                     FileDecryptor decryptor = new FileDecryptor();
-                    decryptor.decryptFile(inputFile, outputFile, key, decryptionManager);
-                    System.out.println("File decrypted successfully.");
+                    try{
+                        decryptor.decryptFile(inputFile, outputFile, key, decryptionManager);
+                        System.out.println("File decrypted successfully.");
+                    }catch(InvalidKeyException e){
+                        System.out.println("Invalid Key try again: ");
+                    }
+                    
                 } else {
                     System.out.println("Invalid operation.");
+                }
+                System.out.println("Do you want to exit:(y/n)");
+                if(scanner.next().equals("y")){
+                    flag = false;
                 }
                 scanner.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+            
     
         }
     }
