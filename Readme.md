@@ -16,10 +16,8 @@ The Encryption and Decryption Tool is a program that allows you to encrypt and d
 1. Clone the repository:
 
    ````shell
-   git clone https://github.com/your-username/encryption-decryption-tool.git
+   git clone  https://github.com/BEKI77/Java-Project-3rd-year.git
    ```
-
-2. Install the necessary dependencies (if any) by following the instructions in the project documentation.
 
 ## Usage
 
