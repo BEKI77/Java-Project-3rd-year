@@ -3,29 +3,37 @@ import java.security.*;
 
 public class Main {
     public static void main(String[] args) {
+        
         boolean flag = true;
+        Scanner scanner = new Scanner(System.in);
+
         while(flag){
             try {
-                Scanner scanner = new Scanner(System.in);
+                
                 // Choose encryption algorithm
+                String[] algos = {"AES","DSA","RSA"};
                 System.out.println("Choose encryption algorithm (e.g., AES):");
-                String algorithm = scanner.nextLine();
-               
+                for(int i=0; i<algos.length;i++){
+                    System.out.println(i +"."+algos[i]);
+                }
+
+                int Uchoice = scanner.nextInt();
+                
                 KeyManager keyManager = new KeyManager();
     
                 // Generate or load key
                 System.out.println("Do you want to generate a new key or use an existing one? (generate/load)");
-                String choice = scanner.nextLine();
+                String choice = scanner.next();
                 Key key;
                 if (choice.equalsIgnoreCase("generate")) {
                     System.out.println("Enter key size:(128,192,256)");
                     int keySize = scanner.nextInt();
-                    key = keyManager.generateKey(algorithm, keySize);
+                    key = keyManager.generateKey(algos[Uchoice], keySize);
                     System.out.println("Key generated successfully: "+ key);
                     System.out.println("Do you want to save the generated key(y/n): ");
                     String fl = scanner.next();
                     if (fl.equals("y")|| fl.equals("Y")){
-                        System.out.println("Enter path to the file(eg. 'fileName'.txt): ");
+                        System.out.println("Enter path to the file(eg. e): ");
                         String path = scanner.next();
                         try{
                             keyManager.writeKeyToFile(key, "./Keys/"+path);
@@ -36,13 +44,13 @@ public class Main {
                     }
                 } else if (choice.equalsIgnoreCase("load")) {
                     System.out.println("Enter path to the key file:");
-                    String keyFilePath = scanner.nextLine();
+                    String keyFilePath = scanner.next();
                     key = keyManager.readKeyFromFile(keyFilePath);
                     System.out.println("Key loaded successfully.");
                 } else {
                     System.out.println("Invalid choice.");
-                    scanner.close();
-                    return;
+                    continue;
+                    
                 }
     
                 // Encrypt or decrypt file
@@ -56,7 +64,7 @@ public class Main {
                     System.out.println("Enter path to output file:('FILENAME.txt)");
                     String outputFile = scanner.next();
 
-                    EncryptionManager encryptionManager = new EncryptionManager(algorithm);
+                    EncryptionManager encryptionManager = new EncryptionManager(algos[Uchoice]);
                     FileEncryptor encryptor = new FileEncryptor();
                     
                     encryptor.encryptFile(inputFile, outputFile, key, encryptionManager);
@@ -68,7 +76,7 @@ public class Main {
                     System.out.println("Enter path to output file:('FILENAME.txt)");
                     String outputFile = scanner.next();
 
-                    DecryptionManager decryptionManager = new DecryptionManager(algorithm);
+                    DecryptionManager decryptionManager = new DecryptionManager(algos[Uchoice]);
                     FileDecryptor decryptor = new FileDecryptor();
                     try{
                         decryptor.decryptFile(inputFile, outputFile, key, decryptionManager);
@@ -80,17 +88,23 @@ public class Main {
                 } else {
                     System.out.println("Invalid operation.");
                 }
+
                 System.out.println("Do you want to exit:(y/n)");
+
                 if(scanner.next().equals("y")){
                     flag = false;
                 }
-                scanner.close();
-            } catch (Exception e) {
+
+                
+
+            }catch (Exception e) {
                 e.printStackTrace();
             }
-        }
             
-    
+            
         }
+        scanner.close();   
     }
+
+}
         
